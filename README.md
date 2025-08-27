@@ -155,29 +155,41 @@ TutorialOverlay(
 
 ### TutorialStep
 
-| Property    | Type      | Description                          |
-| ----------- | --------- | ------------------------------------ |
-| targetKey   | GlobalKey | The key of the widget to highlight   |
-| title       | String    | The title text for the tooltip       |
-| description | String    | The description text for the tooltip |
+| **Property** | **Type**  | **Description**                      |
+| ------------ | --------- | ------------------------------------ |
+| targetKey    | GlobalKey | The key of the widget to highlight   |
+| title        | String    | The title text for the tooltip       |
+| description  | String    | The description text for the tooltip |
 
 ### TutorialOverlay
 
-| Property               | Type               | Default            | Description                    |
-| ---------------------- | ------------------ | ------------------ | ------------------------------ |
-| context                | BuildContext       | required           | The build context              |
-| steps                  | List<TutorialStep> | required           | List of tutorial steps         |
-| onComplete             | VoidCallback?      | null               | Called when tutorial completes |
-| tooltipMaxWidth        | double             | 320.0              | Maximum width of tooltips      |
-| tooltipBackgroundColor | Color              | Colors.white       | Background color of tooltips   |
-| titleTextColor         | Color?             | null               | Color of title text            |
-| descriptionTextColor   | Color?             | null               | Color of description text      |
-| highlightRadius        | double             | 12.0               | Border radius of highlight     |
-| highlightBorderColor   | Color              | Colors.transparent | Border color of highlight      |
-| targetPadding          | double             | 0.0                | Padding around target widget   |
-| blurSigma              | double             | 6.0                | Blur intensity of overlay      |
-| dismissable            | bool               | false              | Allow tap to dismiss           |
-| showButtons            | bool               | true               | Show navigation buttons        |
+| **Property**           | **Type**           | **Default**        | **Description**                   |
+| ---------------------- | ------------------ | ------------------ | --------------------------------- |
+| context                | BuildContext       | required           | The build context                 |
+| steps                  | List<TutorialStep> | required           | List of tutorial steps            |
+| onComplete             | VoidCallback?      | null               | Called when tutorial completes    |
+| tooltipMaxWidth        | double             | 320.0              | Maximum width of tooltips         |
+| tooltipBackgroundColor | Color              | Colors.white       | Background color of tooltips      |
+| titleTextColor         | Color?             | null               | Color of title text               |
+| descriptionTextColor   | Color?             | null               | Color of description text         |
+| highlightRadius        | double             | 12.0               | Border radius of highlight        |
+| highlightBorderColor   | Color              | Colors.transparent | Border color of highlight         |
+| highlightBorderWidth   | double             | 0.0                | Border width of highlight         |
+| targetPadding          | double             | 0.0                | Padding around target widget      |
+| blurSigma              | double             | 6.0                | Blur intensity of overlay         |
+| blurOpacity            | double             | 20                 | Opacity of overlay blur           |
+| overlayTint            | Color              | Color(0x8A000000)  | Tint color of the overlay         |
+| dismissable            | bool               | false              | Allow tap to dismiss              |
+| showButtons            | bool               | true               | Show navigation buttons           |
+| nextButtonStyle        | ButtonStyle?       | null               | Style for the "Next" button       |
+| skipButtonStyle        | ButtonStyle?       | null               | Style for the "Skip" button       |
+| finishButtonStyle      | ButtonStyle?       | null               | Style for the "Finish" button     |
+| nextText               | String             | "Next"             | Text for the "Next" button        |
+| skipText               | String             | "Skip"             | Text for the "Skip" button        |
+| finishText             | String             | "Finish"           | Text for the "Finish" button      |
+| onNext                 | VoidCallback?      | null               | Callback when moving to next step |
+| onSkip                 | VoidCallback?      | null               | Callback when tutorial is skipped |
+| onFinish               | VoidCallback?      | null               | Callback when tutorial finishes   |
 
 ## Examples
 
