@@ -22,7 +22,9 @@ dependencies:
 
 Then run:
 
+```sh
 flutter pub get
+```
 
 ## Quick Start
 
@@ -78,8 +80,9 @@ void _startTutorial() {
 }
 ```
 
-Advanced Usage
-Customization Options
+## Advanced Usage
+
+### Customization Options
 
 ```dart
 TutorialOverlay(
@@ -135,7 +138,8 @@ TutorialOverlay(
 );
 ```
 
-Hiding Buttons
+### Hiding Buttons
+
 You can create a tap-to-continue tutorial by hiding the buttons:
 
 ```dart
@@ -149,30 +153,35 @@ TutorialOverlay(
 
 ## API Reference
 
-TutorialStep
-Property Type Description
-targetKey GlobalKey The key of the widget to highlight
-title String The title text for the tooltip
-description String The description text for the tooltip
-TutorialOverlay
-Property Type Default Description
-context BuildContext required The build context
-steps List<TutorialStep> required List of tutorial steps
-onComplete VoidCallback? null Called when tutorial completes
-tooltipMaxWidth double 320.0 Maximum width of tooltips
-tooltipBackgroundColor Color Colors.white Background color of tooltips
-titleTextColor Color? null Color of title text
-descriptionTextColor Color? null Color of description text
-highlightRadius double 12.0 Border radius of highlight
-highlightBorderColor Color Colors.transparent Border color of highlight
-targetPadding double 0.0 Padding around target widget
-blurSigma double 6.0 Blur intensity of overlay
-dismissable bool false Allow tap to dismiss
-showButtons bool true Show navigation buttons
+### TutorialStep
+
+| Property    | Type      | Description                          |
+| ----------- | --------- | ------------------------------------ |
+| targetKey   | GlobalKey | The key of the widget to highlight   |
+| title       | String    | The title text for the tooltip       |
+| description | String    | The description text for the tooltip |
+
+### TutorialOverlay
+
+| Property               | Type               | Default            | Description                    |
+| ---------------------- | ------------------ | ------------------ | ------------------------------ |
+| context                | BuildContext       | required           | The build context              |
+| steps                  | List<TutorialStep> | required           | List of tutorial steps         |
+| onComplete             | VoidCallback?      | null               | Called when tutorial completes |
+| tooltipMaxWidth        | double             | 320.0              | Maximum width of tooltips      |
+| tooltipBackgroundColor | Color              | Colors.white       | Background color of tooltips   |
+| titleTextColor         | Color?             | null               | Color of title text            |
+| descriptionTextColor   | Color?             | null               | Color of description text      |
+| highlightRadius        | double             | 12.0               | Border radius of highlight     |
+| highlightBorderColor   | Color              | Colors.transparent | Border color of highlight      |
+| targetPadding          | double             | 0.0                | Padding around target widget   |
+| blurSigma              | double             | 6.0                | Blur intensity of overlay      |
+| dismissable            | bool               | false              | Allow tap to dismiss           |
+| showButtons            | bool               | true               | Show navigation buttons        |
 
 ## Examples
 
-Check out the /example folder for a complete sample app demonstrating various features and customization options.
+Check out the `/example` folder for a complete sample app demonstrating various features and customization options.
 
 ## Contributing
 
