@@ -19,3 +19,6 @@ dev_dependencies:
     sdk: flutter
   lints: ^5.0.0
   test: ^1.24.0
+# scripts:
+#   test: flutter test
+#   test:coverage: flutter test --coverage

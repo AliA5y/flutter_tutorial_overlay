@@ -1,0 +1,22 @@
+name: flutter_tutorial_overlay_example
+description: Example app for the flutter_tutorial_overlay package.
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.8.1
+  flutter: ">=3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_tutorial_overlay:
+    path: ../
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  lints: ^5.0.0
+  test: ^1.24.0
+
+flutter:
+  uses-material-design: true
