@@ -9,14 +9,17 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  flutter_tutorial_overlay:
-    path: ../
+  # flutter_tutorial_overlay:
+  #   path: ../
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   lints: ^5.0.0
   test: ^1.24.0
+dependency_overrides:
+  flutter_tutorial_overlay:
+    path: ../
 
 flutter:
   uses-material-design: true
