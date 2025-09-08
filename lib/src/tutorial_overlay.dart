@@ -74,6 +74,12 @@ class TutorialOverlay {
   final ButtonStyle? finishButtonStyle;
 
   /// Callback invoked when the "Next" button is pressed.
+  ///
+  /// **Deprecated:** Use [TutorialStep.onStepNext] instead.
+  @Deprecated(
+    'Use TutorialStep.onStepNext instead. '
+    'This will be removed in future releases.',
+  )
   final VoidCallback? onNext;
 
   /// Callback invoked when the "Skip" button is pressed.
@@ -122,7 +128,14 @@ class TutorialOverlay {
   ///
   /// If [showButtons] is false, [dismissable] should be true to allow users
   /// to exit the tutorial.
+  ///
+  /// **Migration Note**: The [onNext] parameter is deprecated. Use [TutorialStep.onStepNext]
+  /// in individual steps instead for better organization and step-specific handling.
   TutorialOverlay({
+    @Deprecated(
+      'Use TutorialStep.onStepNext instead. '
+      'This will be removed in future releases.',
+    )
     this.onNext,
     this.onSkip,
     this.onFinish,
