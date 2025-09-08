@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+// ignore: depend_on_referenced_packages
 import 'package:flutter_tutorial_overlay/flutter_tutorial_overlay.dart';
 
 void main() {
@@ -19,15 +20,19 @@ class MyApp extends StatelessWidget {
 
 class TutorialExample extends StatefulWidget {
   @override
-  _TutorialExampleState createState() => _TutorialExampleState();
+  TutorialExampleState createState() => TutorialExampleState();
 }
 
-class _TutorialExampleState extends State<TutorialExample> {
+class TutorialExampleState extends State<TutorialExample> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final GlobalKey _fabKey = GlobalKey();
   final GlobalKey _drawerKey = GlobalKey();
-  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final GlobalKey _titleKey = GlobalKey();
   final GlobalKey _listKey = GlobalKey();
+  final GlobalKey _searchKey = GlobalKey();
+
+  String lastCompletedStep = 'None';
+  final List<String> completedSteps = [];
 
   @override
   Widget build(BuildContext context) {
@@ -35,6 +40,15 @@ class _TutorialExampleState extends State<TutorialExample> {
       appBar: AppBar(
         title: Text('Tutorial Example', key: _titleKey),
         actions: [
+          IconButton(
+            key: _searchKey,
+            icon: Icon(Icons.search),
+            onPressed: () {
+              ScaffoldMessenger.of(
+                context,
+              ).showSnackBar(SnackBar(content: Text('Search pressed!')));
+            },
+          ),
           IconButton(icon: Icon(Icons.help_outline), onPressed: _startTutorial),
         ],
         leading: IconButton(
@@ -64,12 +78,34 @@ class _TutorialExampleState extends State<TutorialExample> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Welcome to the Tutorial Example!',
+              'Tutorial Overlay v1.0.1',
               style: Theme.of(context).textTheme.headlineMedium,
+            ),
+            SizedBox(height: 10),
+            Card(
+              child: Padding(
+                padding: EdgeInsets.all(16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Step Tracking (New!)',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                      ),
+                    ),
+                    SizedBox(height: 8),
+                    Text('Last completed step: $lastCompletedStep'),
+                    SizedBox(height: 8),
+                    Text('Completed steps: ${completedSteps.join(", ")}'),
+                  ],
+                ),
+              ),
             ),
             SizedBox(height: 20),
             Text(
-              'This example demonstrates how to use the Flutter Tutorial Overlay package. Tap the help icon in the app bar to start the tutorial.',
+              'This example demonstrates the new step-specific callbacks and tagging features. Tap the help icon to start the tutorial.',
             ),
             SizedBox(height: 20),
             Expanded(
@@ -93,12 +129,16 @@ class _TutorialExampleState extends State<TutorialExample> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 ElevatedButton(
-                  onPressed: _startBasicTutorial,
-                  child: Text('Basic Tutorial'),
+                  onPressed: _startNewFeatureTutorial,
+                  child: Text('New Features'),
                 ),
                 ElevatedButton(
-                  onPressed: _startCustomTutorial,
-                  child: Text('Custom Tutorial'),
+                  onPressed: _startTrackingTutorial,
+                  child: Text('With Tracking'),
+                ),
+                ElevatedButton(
+                  onPressed: _startLegacyTutorial,
+                  child: Text('Legacy (Deprecated)'),
                 ),
               ],
             ),
@@ -121,27 +161,52 @@ class _TutorialExampleState extends State<TutorialExample> {
     final steps = [
       TutorialStep(
         targetKey: _titleKey,
-        title: "App Title",
+        title: 'App Title',
         description:
-            "This is the title of your app. It helps users understand what the app is about.",
+            'This is the title of your app. It helps users understand what the app is about.',
+        tag: 'app_title',
+        onStepNext: (stepTag) {
+          _trackStepCompletion(stepTag);
+        },
+      ),
+      TutorialStep(
+        targetKey: _searchKey,
+        title: 'Search Feature',
+        description: 'Use this search button to find content quickly.',
+        tag: 'search_button',
+        onStepNext: (stepTag) {
+          _trackStepCompletion(stepTag);
+        },
       ),
       TutorialStep(
         targetKey: _drawerKey,
-        title: "Navigation Menu",
+        title: 'Navigation Menu',
         description:
-            "Tap this button to open the navigation drawer and access different sections of the app.",
+            'Tap this button to open the navigation drawer and access different sections of the app.',
+        tag: 'navigation_drawer',
+        onStepNext: (stepTag) {
+          _trackStepCompletion(stepTag);
+        },
       ),
       TutorialStep(
         targetKey: _listKey,
-        title: "Content List",
+        title: 'Content List',
         description:
-            "This is where your main content is displayed. You can scroll through items here.",
+            'This is where your main content is displayed. You can scroll through items here.',
+        tag: 'content_list',
+        onStepNext: (stepTag) {
+          _trackStepCompletion(stepTag);
+        },
       ),
       TutorialStep(
         targetKey: _fabKey,
-        title: "Add Button",
+        title: 'Add Button',
         description:
-            "Use this floating action button to add new items or perform the main action in your app.",
+            'Use this floating action button to add new items or perform the main action in your app.',
+        tag: 'add_button',
+        onStepNext: (stepTag) {
+          _trackStepCompletion(stepTag);
+        },
       ),
     ];
 
@@ -158,32 +223,63 @@ class _TutorialExampleState extends State<TutorialExample> {
     tutorial.show();
   }
 
-  void _startBasicTutorial() {
+  void _startNewFeatureTutorial() {
     final steps = [
       TutorialStep(
         targetKey: _fabKey,
-        title: "Basic Tutorial",
-        description: "This is a basic tutorial with default styling.",
+        title: 'New in v1.0.1',
+        description:
+            'This tutorial demonstrates the new step-specific callbacks and tagging features!',
+        tag: 'new_features_demo',
+        onStepNext: (stepTag) {
+          _trackStepCompletion(stepTag);
+          // Show additional info
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('Step-specific callback executed for: $stepTag'),
+            ),
+          );
+        },
       ),
     ];
 
     final tutorial = TutorialOverlay(
       context: context,
       steps: steps,
-      showButtons: false,
-      dismissable: true,
+      tooltipBackgroundColor: Colors.green.shade50,
+      titleTextColor: Colors.green.shade800,
+      descriptionTextColor: Colors.green.shade600,
+      highlightBorderColor: Colors.green,
+      nextText: 'Cool!',
+      skipText: 'Skip',
     );
 
     tutorial.show();
   }
 
-  void _startCustomTutorial() {
+  void _startTrackingTutorial() {
     final steps = [
       TutorialStep(
-        targetKey: _fabKey,
-        title: "Custom Styled Tutorial",
+        targetKey: _searchKey,
+        title: 'Analytics Integration',
         description:
-            "This tutorial has custom styling with different colors and button styles.",
+            'Each step can now be tracked individually for better analytics.',
+        tag: 'analytics_search',
+        onStepNext: (stepTag) {
+          _trackStepCompletion(stepTag);
+          // Simulate analytics call
+          _logAnalyticsEvent(stepTag);
+        },
+      ),
+      TutorialStep(
+        targetKey: _fabKey,
+        title: 'User Behavior Tracking',
+        description: 'Monitor which tutorial steps users complete most often.',
+        tag: 'analytics_fab',
+        onStepNext: (stepTag) {
+          _trackStepCompletion(stepTag);
+          _logAnalyticsEvent(stepTag);
+        },
       ),
     ];
 
@@ -194,20 +290,59 @@ class _TutorialExampleState extends State<TutorialExample> {
       titleTextColor: Colors.purple.shade800,
       descriptionTextColor: Colors.purple.shade600,
       highlightBorderColor: Colors.purple,
-      highlightBorderWidth: 3,
-      nextButtonStyle: ElevatedButton.styleFrom(
-        backgroundColor: Colors.purple,
-        foregroundColor: Colors.white,
-      ),
-      skipButtonStyle: ElevatedButton.styleFrom(
-        backgroundColor: Colors.grey.shade300,
-        foregroundColor: Colors.black,
-      ),
-      nextText: "Got it!",
-      skipText: "Close",
-      blurSigma: 10,
     );
 
     tutorial.show();
+  }
+
+  // Example of the deprecated approach (will show warning)
+  void _startLegacyTutorial() {
+    final steps = [
+      TutorialStep(
+        targetKey: _fabKey,
+        title: 'Legacy Approach',
+        description:
+            'This uses the deprecated onNext callback. Check the debug console for warnings.',
+        // No tag or onStepNext - using legacy approach
+      ),
+      TutorialStep(
+        targetKey: _listKey,
+        title: 'Legacy Approach',
+        description:
+            'This uses the deprecated onNext callback. Check the debug console for warnings.',
+        // No tag or onStepNext - using legacy approach
+      ),
+    ];
+
+    final tutorial = TutorialOverlay(
+      context: context,
+      steps: steps,
+      // This will trigger a deprecation warning
+      // ignore: deprecated_member_use
+      onNext: () {
+        print('Legacy onNext callback - this is deprecated!');
+      },
+      tooltipBackgroundColor: Colors.orange.shade50,
+      titleTextColor: Colors.orange.shade800,
+      descriptionTextColor: Colors.orange.shade600,
+      highlightBorderColor: Colors.orange,
+    );
+
+    tutorial.show();
+  }
+
+  void _trackStepCompletion(String stepTag) {
+    setState(() {
+      lastCompletedStep = stepTag;
+      if (!completedSteps.contains(stepTag)) {
+        completedSteps.add(stepTag);
+      }
+    });
+  }
+
+  void _logAnalyticsEvent(String stepTag) {
+    // Simulate analytics logging
+    print('📊 Analytics: Tutorial step completed - $stepTag');
+    print('📊 Total completed steps: ${completedSteps.length}');
   }
 }

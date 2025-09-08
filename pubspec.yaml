@@ -1,6 +1,6 @@
 name: flutter_tutorial_overlay
 description: A customizable Flutter widget for creating interactive app tutorials and onboarding experiences with highlighted targets and informative tooltips.
-version: 1.0.0
+version: 1.0.1
 homepage: https://github.com/AliA5y/flutter_tutorial_overlay
 repository: https://github.com/AliA5y/flutter_tutorial_overlay
 issue_tracker: https://github.com/AliA5y/flutter_tutorial_overlay/issues

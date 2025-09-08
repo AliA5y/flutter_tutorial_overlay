@@ -9,7 +9,9 @@ A customizable Flutter widget for creating interactive app tutorials and onboard
 - 🎨 **Flexible Styling**: Customize colors, borders, blur effects, and button styles
 - 📱 **Responsive Design**: Automatically positions tooltips to fit screen boundaries
 - 🔄 **Step-by-Step Navigation**: Navigate through multiple tutorial steps
+- 🏷️ **Step Tagging**: Identify steps with custom tags for analytics and tracking
 - ⚡ **Easy Integration**: Simple setup with minimal code
+- 🔧 **Step-Specific Callbacks**: Handle individual step interactions
 
 ## Installation
 
@@ -60,11 +62,20 @@ void _startTutorial() {
       targetKey: _buttonKey,
       title: "Welcome!",
       description: "This is your main action button. Tap it to perform the primary action.",
+      tag: "main_button",
+      onStepNext: (stepTag) {
+        print('User completed step: $stepTag');
+        // Add analytics or specific logic for this step
+      },
     ),
     TutorialStep(
       targetKey: _menuKey,
       title: "Menu",
       description: "Access additional options and settings from this menu.",
+      tag: "navigation_menu",
+      onStepNext: (stepTag) {
+        print('User completed step: $stepTag');
+      },
     ),
   ];
 
@@ -81,6 +92,60 @@ void _startTutorial() {
 ```
 
 ## Advanced Usage
+
+Step-Specific Callbacks (New in v1.0.1)
+Use step-specific callbacks for better control and analytics:
+
+```dart
+TutorialStep(
+  targetKey: _buttonKey,
+  title: "Action Button",
+  description: "This performs the main action",
+  tag: "primary_action",
+  onStepNext: (stepTag) {
+    // Log analytics for this specific step
+    analytics.logEvent('tutorial_step_completed', {'step': stepTag});
+
+    // Perform step-specific actions
+    if (stepTag == "primary_action") {
+      // Enable the button or show additional hints
+      _enablePrimaryButton();
+    }
+  },
+)
+```
+
+## Migration from v1.0.0
+
+If you're upgrading from v1.0.0, replace the global onNext callback with step-specific ones:
+
+### Before (v1.0.0):
+
+```dart
+TutorialOverlay(
+  context: context,
+  steps: steps,
+  onNext: () => print('Next step'), // This is now deprecated
+)
+```
+
+### After (v1.0.1):
+
+```dart
+
+TutorialOverlay(
+  context: context,
+  steps: [
+    TutorialStep(
+      targetKey: myKey,
+      title: "Step Title",
+      description: "Step description",
+      tag: "unique_step_id", // Optional but recommended
+      onStepNext: (stepTag) => print('Completed step: $stepTag'),
+    ),
+  ],
+)
+```
 
 ### Customization Options
 
@@ -130,12 +195,44 @@ TutorialOverlay(
   dismissable: true,
   showButtons: true,
 
-  // Callbacks
-  onNext: () => print('Next step'),
+  // Global callbacks
   onSkip: () => print('Tutorial skipped'),
   onFinish: () => print('Tutorial finished'),
   onComplete: () => print('Tutorial completed'),
 );
+```
+
+## Analytics and Tracking
+
+With step tags and callbacks, you can easily track user progress:
+
+```dart
+final steps = [
+  TutorialStep(
+    targetKey: _searchKey,
+    title: "Search",
+    description: "Find what you're looking for",
+    tag: "search_feature",
+    onStepNext: (stepTag) {
+      // Track completion
+      FirebaseAnalytics.instance.logEvent(
+        name: 'tutorial_step_completed',
+        parameters: {'step_id': stepTag},
+      );
+    },
+  ),
+  TutorialStep(
+    targetKey: _profileKey,
+    title: "Profile",
+    description: "Manage your account settings",
+    tag: "profile_management",
+    onStepNext: (stepTag) {
+      // Track and perform specific action
+      analytics.track('StepCompleted', {'step': stepTag});
+      _highlightProfileFeatures();
+    },
+  ),
+];
 ```
 
 ### Hiding Buttons
@@ -155,41 +252,49 @@ TutorialOverlay(
 
 ### TutorialStep
 
-| **Property** | **Type**  | **Description**                      |
-| ------------ | --------- | ------------------------------------ |
-| targetKey    | GlobalKey | The key of the widget to highlight   |
-| title        | String    | The title text for the tooltip       |
-| description  | String    | The description text for the tooltip |
+| **Property** | **Type**          | **Description**                                  |
+| ------------ | ----------------- | ------------------------------------------------ |
+| targetKey    | GlobalKey         | The key of the widget to highlight               |
+| title        | String            | The title text for the tooltip                   |
+| description  | String            | The description text for the tooltip             |
+| tag          | String            | New! Unique identifier for the step              |
+| onStepNext   | Function(String)? | New! Callback when user taps "Next" on this step |
 
 ### TutorialOverlay
 
-| **Property**           | **Type**           | **Default**        | **Description**                   |
-| ---------------------- | ------------------ | ------------------ | --------------------------------- |
-| context                | BuildContext       | required           | The build context                 |
-| steps                  | List<TutorialStep> | required           | List of tutorial steps            |
-| onComplete             | VoidCallback?      | null               | Called when tutorial completes    |
-| tooltipMaxWidth        | double             | 320.0              | Maximum width of tooltips         |
-| tooltipBackgroundColor | Color              | Colors.white       | Background color of tooltips      |
-| titleTextColor         | Color?             | null               | Color of title text               |
-| descriptionTextColor   | Color?             | null               | Color of description text         |
-| highlightRadius        | double             | 12.0               | Border radius of highlight        |
-| highlightBorderColor   | Color              | Colors.transparent | Border color of highlight         |
-| highlightBorderWidth   | double             | 0.0                | Border width of highlight         |
-| targetPadding          | double             | 0.0                | Padding around target widget      |
-| blurSigma              | double             | 6.0                | Blur intensity of overlay         |
-| blurOpacity            | double             | 20                 | Opacity of overlay blur           |
-| overlayTint            | Color              | Color(0x8A000000)  | Tint color of the overlay         |
-| dismissable            | bool               | false              | Allow tap to dismiss              |
-| showButtons            | bool               | true               | Show navigation buttons           |
-| nextButtonStyle        | ButtonStyle?       | null               | Style for the "Next" button       |
-| skipButtonStyle        | ButtonStyle?       | null               | Style for the "Skip" button       |
-| finishButtonStyle      | ButtonStyle?       | null               | Style for the "Finish" button     |
-| nextText               | String             | "Next"             | Text for the "Next" button        |
-| skipText               | String             | "Skip"             | Text for the "Skip" button        |
-| finishText             | String             | "Finish"           | Text for the "Finish" button      |
-| onNext                 | VoidCallback?      | null               | Callback when moving to next step |
-| onSkip                 | VoidCallback?      | null               | Callback when tutorial is skipped |
-| onFinish               | VoidCallback?      | null               | Callback when tutorial finishes   |
+| **Property**           | **Type**           | **Default**        | **Description**                        |
+| ---------------------- | ------------------ | ------------------ | -------------------------------------- |
+| context                | BuildContext       | required           | The build context                      |
+| steps                  | List<TutorialStep> | required           | List of tutorial steps                 |
+| onComplete             | VoidCallback?      | null               | Called when tutorial completes         |
+| tooltipMaxWidth        | double             | 320.0              | Maximum width of tooltips              |
+| tooltipBackgroundColor | Color              | Colors.white       | Background color of tooltips           |
+| titleTextColor         | Color?             | null               | Color of title text                    |
+| descriptionTextColor   | Color?             | null               | Color of description text              |
+| highlightRadius        | double             | 12.0               | Border radius of highlight             |
+| highlightBorderColor   | Color              | Colors.transparent | Border color of highlight              |
+| highlightBorderWidth   | double             | 0.0                | Border width of highlight              |
+| targetPadding          | double             | 0.0                | Padding around target widget           |
+| blurSigma              | double             | 6.0                | Blur intensity of overlay              |
+| blurOpacity            | double             | 20                 | Opacity of overlay blur                |
+| overlayTint            | Color              | Color(0x8A000000)  | Tint color of the overlay              |
+| dismissable            | bool               | false              | Allow tap to dismiss                   |
+| showButtons            | bool               | true               | Show navigation buttons                |
+| nextButtonStyle        | ButtonStyle?       | null               | Style for the "Next" button            |
+| skipButtonStyle        | ButtonStyle?       | null               | Style for the "Skip" button            |
+| finishButtonStyle      | ButtonStyle?       | null               | Style for the "Finish" button          |
+| nextText               | String             | "Next"             | Text for the "Next" button             |
+| skipText               | String             | "Skip"             | Text for the "Skip" button             |
+| finishText             | String             | "Finish"           | Text for the "Finish" button           |
+| onNext                 | VoidCallback?      | null               | DEPRECATED Use TutorialStep.onStepNext |
+| onSkip                 | VoidCallback?      | null               | Callback when tutorial is skipped      |
+| onFinish               | VoidCallback?      | null               | Callback when tutorial finishes        |
+
+## Deprecation Notice
+
+⚠️ The onNext parameter in TutorialOverlay is deprecated as of v1.0.1
+
+This parameter will be removed in version 2.0.0. Please migrate to using onStepNext in individual TutorialStep instances for better step-specific control and cleaner code organization.
 
 ## Examples
 

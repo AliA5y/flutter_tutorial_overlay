@@ -74,6 +74,12 @@ class TutorialOverlay {
   final ButtonStyle? finishButtonStyle;
 
   /// Callback invoked when the "Next" button is pressed.
+  ///
+  /// **Deprecated:** Use [TutorialStep.onStepNext] instead.
+  @Deprecated(
+    'Use TutorialStep.onStepNext instead. '
+    'This will be removed in future releases.',
+  )
   final VoidCallback? onNext;
 
   /// Callback invoked when the "Skip" button is pressed.
@@ -122,7 +128,14 @@ class TutorialOverlay {
   ///
   /// If [showButtons] is false, [dismissable] should be true to allow users
   /// to exit the tutorial.
+  ///
+  /// **Migration Note**: The [onNext] parameter is deprecated. Use [TutorialStep.onStepNext]
+  /// in individual steps instead for better organization and step-specific handling.
   TutorialOverlay({
+    @Deprecated(
+      'Use TutorialStep.onStepNext instead. '
+      'This will be removed in future releases.',
+    )
     this.onNext,
     this.onSkip,
     this.onFinish,
@@ -250,10 +263,8 @@ Other possible causes:
 
         // Horizontal position: centered on hole
         final double tooltipWidth = tooltipMaxWidth;
-        double tooltipLeft = (holeRect.center.dx - tooltipWidth / 2).clamp(
-          edgePadding,
-          screen.width - edgePadding - tooltipWidth,
-        );
+        final double tooltipLeft = (holeRect.center.dx - tooltipWidth / 2)
+            .clamp(edgePadding, screen.width - edgePadding - tooltipWidth);
 
         // Arrow offset inside tooltip (relative to its width)
         final arrowDx = (holeRect.center.dx - tooltipLeft)
@@ -357,7 +368,7 @@ Other possible causes:
                 ),
                 const SizedBox(height: 12),
                 Text(
-                  '$text',
+                  text,
                   style: TextStyle(
                     fontSize: 16,
                     color: descriptionTextColor ?? Colors.black87,
@@ -487,12 +498,16 @@ Other possible causes:
   void _nextStep() {
     _overlayEntry?.remove();
     _overlayEntry = null;
+    final step = steps[_currentStep];
     _currentStep++;
 
     if (_currentStep < steps.length) {
       _showStep();
+      step.onStepNext?.call(step.getEffectiveTag(_currentStep));
+      // ignore: deprecated_member_use_from_same_package
       onNext?.call();
     } else {
+      step.onStepNext?.call(step.getEffectiveTag(_currentStep));
       _removeOverlay();
       onComplete?.call();
       onFinish?.call();

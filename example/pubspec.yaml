@@ -1,6 +1,6 @@
 name: flutter_tutorial_overlay_example
 description: Example app for the flutter_tutorial_overlay package.
-version: 1.0.0+1
+version: 1.0.1+2
 
 environment:
   sdk: ^3.8.1
