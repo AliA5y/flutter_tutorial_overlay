@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+// ignore: depend_on_referenced_packages
 import 'package:flutter_tutorial_overlay/flutter_tutorial_overlay.dart';
 
 void main() {
@@ -317,6 +318,7 @@ class TutorialExampleState extends State<TutorialExample> {
       context: context,
       steps: steps,
       // This will trigger a deprecation warning
+      // ignore: deprecated_member_use
       onNext: () {
         print('Legacy onNext callback - this is deprecated!');
       },
