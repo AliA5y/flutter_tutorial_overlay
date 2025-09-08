@@ -500,12 +500,15 @@ Other possible causes:
   void _nextStep() {
     _overlayEntry?.remove();
     _overlayEntry = null;
+    final step = steps[_currentStep];
     _currentStep++;
 
     if (_currentStep < steps.length) {
       _showStep();
+      step.onStepNext?.call(step.getEffectiveTag(_currentStep));
       onNext?.call();
     } else {
+      step.onStepNext?.call(step.getEffectiveTag(_currentStep));
       _removeOverlay();
       onComplete?.call();
       onFinish?.call();
