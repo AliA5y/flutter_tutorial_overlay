@@ -22,7 +22,7 @@ With this package, you can highlight specific widgets, display tooltips, and gui
 Here’s how **Flutter Tutorial Overlay** looks in action:
 
 <p align="center">
-  <img src="assets/tutorial_overlay.gif" alt="Flutter Tutorial Overlay Demo" width="400"/>
+  <img src="https://raw.githubusercontent.com/AliA5y/flutter_tutorial_overlay/main/assets/tutorial_overlay.gif" alt="Flutter Tutorial Overlay Demo" width="400"/>
 </p>
 
 ## Installation
