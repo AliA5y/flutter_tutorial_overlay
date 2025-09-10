@@ -1,17 +1,27 @@
 # Flutter Tutorial Overlay
 
-A customizable Flutter widget for creating interactive app tutorials and onboarding experiences. This package allows you to highlight specific UI elements and display informative tooltips to guide users through your app's features.
+**Flutter Tutorial Overlay** is a Flutter package for building **interactive tutorials, onboarding flows, guided tours, and user instruction overlays** in your apps.
+
+With this package, you can highlight specific widgets, display tooltips, and guide users step-by-step through your app’s features. It’s perfect for creating **in-app tutorials, walkthroughs, and user instruction guides** that improve onboarding and help users understand your UI quickly.
 
 ## Features
 
-- 🎯 **Target Highlighting**: Highlight any widget using GlobalKey
-- 💬 **Customizable Tooltips**: Rich tooltips with titles, descriptions, and action buttons
-- 🎨 **Flexible Styling**: Customize colors, borders, blur effects, and button styles
-- 📱 **Responsive Design**: Automatically positions tooltips to fit screen boundaries
-- 🔄 **Step-by-Step Navigation**: Navigate through multiple tutorial steps
-- 🏷️ **Step Tagging**: Identify steps with custom tags for analytics and tracking
-- ⚡ **Easy Integration**: Simple setup with minimal code
-- 🔧 **Step-Specific Callbacks**: Handle individual step interactions
+- **Target Highlighting**: Emphasize any widget using just a `GlobalKey`
+- **Customizable Tooltips**: Titles, descriptions, and action buttons
+- **Flexible Styling**: Colors, borders, blur effects, and button styles
+- **Responsive Design**: Tooltips adapt to screen boundaries
+- **Step-by-Step Navigation**: Guide users through multiple tutorial steps
+- **Step Tagging**: Add custom tags for analytics and tracking
+- **Easy Integration**: Simple setup with minimal code
+- **Step-Specific Callbacks**: Handle interactions at each step
+
+## 🎥 Showcase
+
+Here’s how **Flutter Tutorial Overlay** looks in action:
+
+<p align="center">
+  <img src="assets/tutorial_overlay.gif" alt="Flutter Tutorial Overlay Demo" width="400"/>
+</p>
 
 ## Installation
 
