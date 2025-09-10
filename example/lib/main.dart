@@ -124,23 +124,34 @@ class TutorialExampleState extends State<TutorialExample> {
                 },
               ),
             ),
-            SizedBox(height: 20),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                ElevatedButton(
-                  onPressed: _startNewFeatureTutorial,
-                  child: Text('New Features'),
-                ),
-                ElevatedButton(
-                  onPressed: _startTrackingTutorial,
-                  child: Text('With Tracking'),
-                ),
-                ElevatedButton(
-                  onPressed: _startLegacyTutorial,
-                  child: Text('Legacy (Deprecated)'),
-                ),
-              ],
+            // SizedBox(height: 20),
+          ],
+        ),
+      ),
+      bottomNavigationBar: Container(
+        margin: EdgeInsets.only(bottom: 20),
+        child: Wrap(
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 12.0),
+              child: ElevatedButton(
+                onPressed: _startNewFeatureTutorial,
+                child: Text('New Features'),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 12.0),
+              child: ElevatedButton(
+                onPressed: _startTrackingTutorial,
+                child: Text('With Tracking'),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 12.0),
+              child: ElevatedButton(
+                onPressed: _startLegacyTutorial,
+                child: Text('Legacy (Deprecated)'),
+              ),
             ),
           ],
         ),
