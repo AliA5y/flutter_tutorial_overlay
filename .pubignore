@@ -9,3 +9,4 @@ build
 test
 .history
 test_runner.sh
+assets
