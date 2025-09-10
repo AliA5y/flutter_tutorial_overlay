@@ -1,3 +1,5 @@
+[![Pub Version](https://img.shields.io/pub/v/flutter_tutorial_overlay?color=blue)](https://pub.dev/packages/flutter_tutorial_overlay)
+
 # Flutter Tutorial Overlay
 
 **Flutter Tutorial Overlay** is a Flutter package for building **interactive tutorials, onboarding flows, guided tours, and user instruction overlays** in your apps.
