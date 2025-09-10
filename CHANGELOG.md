@@ -1,5 +1,12 @@
 ## latest
 
+## [1.0.2] - 2025-09-10
+
+- Added showcase section in README file
+- Updated README file to enhance SEO of the package
+- Enabled the android project in the example
+- odified the example code to work perfectly on android devices
+
 ## [1.0.1] - 2025-09-08
 
 ### Added
