@@ -1,5 +1,13 @@
 ## latest
 
+## [1.0.4] - 2025-09-10
+
+- update README file
+
+## [1.0.3] - 2025-09-10
+
+- update README file
+
 ## [1.0.2] - 2025-09-10
 
 - Added showcase section in README file
