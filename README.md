@@ -27,17 +27,10 @@ Here’s how **Flutter Tutorial Overlay** looks in action:
 
 ## Installation
 
-Add this to your package's `pubspec.yaml` file:
+Run this in your terminal:
 
-```yaml
-dependencies:
-  flutter_tutorial_overlay: ^1.0.0
-```
-
-Then run:
-
-```sh
-flutter pub get
+```shell
+flutter pub add flutter_tutorial_overlay
 ```
 
 ## Quick Start
