@@ -176,6 +176,9 @@ class TutorialOverlay {
   /// Starts the tutorial by showing the first step.
   void show() => _showStep();
 
+  /// Dismisses the tutorial overlay.
+  void dismiss() => _removeOverlay();
+
   // ... rest of your existing implementation remains the same
 
   void _showStep() {
