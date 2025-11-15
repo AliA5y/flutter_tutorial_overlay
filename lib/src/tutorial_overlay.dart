@@ -350,10 +350,7 @@ Other possible causes:
             padding: tooltipPadding ?? EdgeInsets.all(20),
             decoration: BoxDecoration(
               color: tooltipBackgroundColor,
-              borderRadius: BorderRadius.circular(12),
-              boxShadow: const [
-                // BoxShadow(blurRadius: 8, color: Colors.black26)
-              ],
+              borderRadius: BorderRadius.circular(tooltipBorderRadius),
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
