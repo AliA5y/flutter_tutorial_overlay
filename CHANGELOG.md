@@ -1,3 +1,15 @@
+## [1.0.6] - 2026-06-09
+
+### Added
+
+- `titleStyle` and `descriptionStyle` to `TutorialOverlay` for custom title and descriptions styling.
+
+### Fixed
+
+- `tooltipMaxWidth` property now correctly sizes tooltips that span across the whole width of the screen.
+- `overlayTint` property is now correctly applied to the BackdropFilter. 
+- Typo in `TutorialOverlay` finishText property name.
+
 ## [1.0.5] - 2026-05-30
 
 ### Added

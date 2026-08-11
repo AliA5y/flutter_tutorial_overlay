@@ -119,6 +119,12 @@ class TutorialOverlay {
   /// Custom text for the "Skip" button.
   final String? skipText;
 
+  // Custom style for the title text.
+  final TextStyle? titleStyle;
+
+  // Custom style for the description text.
+  final TextStyle? descriptionStyle;
+
   /// Creates a new tutorial overlay.
   ///
   /// The [context] and [steps] parameters are required. All other parameters
@@ -163,6 +169,8 @@ class TutorialOverlay {
     this.nextText,
     this.finishText,
     this.skipText,
+    this.titleStyle,
+    this.descriptionStyle,
   }) : assert(
          dismissible || showButtons,
          'showButtons must be true or set dismissible to true\n'
@@ -213,6 +221,8 @@ Other possible causes:
     _overlayEntry = OverlayEntry(
       builder: (context) {
         final screen = MediaQuery.of(context).size;
+        final availableTooltipWidth =
+            (screen.width - edgePadding * 2).clamp(0.0, double.infinity);
 
         final safetyBottomMargin = 20;
 
@@ -229,20 +239,35 @@ Other possible causes:
             ? (holeRect.top - edgePadding - tooltipEstimatedHeight)
             : (holeRect.bottom + edgePadding);
 
-        tooltipTop = tooltipTop.clamp(
-          edgePadding,
-          screen.height - edgePadding - tooltipEstimatedHeight,
-        );
+        final minTooltipTop = edgePadding;
+        final maxTooltipTop =
+          (screen.height - edgePadding - tooltipEstimatedHeight).toDouble();
+        tooltipTop = maxTooltipTop >= minTooltipTop
+          ? tooltipTop.clamp(minTooltipTop, maxTooltipTop).toDouble()
+          : minTooltipTop;
 
         // Horizontal position: centered on hole
-        final double tooltipWidth = tooltipMaxWidth;
-        final double tooltipLeft = (holeRect.center.dx - tooltipWidth / 2)
-            .clamp(edgePadding, screen.width - edgePadding - tooltipWidth);
+        final tooltipWidth = tooltipMaxWidth.isFinite
+          ? tooltipMaxWidth.clamp(0.0, availableTooltipWidth).toDouble()
+          : availableTooltipWidth;
+        final preferredTooltipLeft = holeRect.center.dx - tooltipWidth / 2;
+        final minTooltipLeft = edgePadding;
+        final maxTooltipLeft =
+          (screen.width - edgePadding - tooltipWidth).toDouble();
+        final tooltipLeft = maxTooltipLeft >= minTooltipLeft
+          ? preferredTooltipLeft
+              .clamp(minTooltipLeft, maxTooltipLeft)
+              .toDouble()
+          : minTooltipLeft;
 
         // Arrow offset inside tooltip (relative to its width)
-        final arrowDx = (holeRect.center.dx - tooltipLeft)
-            .clamp(20, tooltipWidth - 20)
-            .toDouble();
+        final minArrowDx = 20.0;
+        final maxArrowDx = (tooltipWidth - 20).toDouble();
+        final arrowDx = maxArrowDx >= minArrowDx
+          ? (holeRect.center.dx - tooltipLeft)
+              .clamp(minArrowDx, maxArrowDx)
+              .toDouble()
+          : tooltipWidth / 2;
 
         return Stack(
           children: [
@@ -330,7 +355,7 @@ Other possible causes:
               children: [
                 Text(
                   title,
-                  style: TextStyle(
+                  style: titleStyle ??TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
                     color: titleTextColor ?? Colors.black87,
@@ -339,7 +364,7 @@ Other possible causes:
                 const SizedBox(height: 12),
                 Text(
                   text,
-                  style: TextStyle(
+                  style: descriptionStyle ?? TextStyle(
                     fontSize: 16,
                     color: descriptionTextColor ?? Colors.black87,
                   ),
@@ -442,7 +467,9 @@ Other possible causes:
             ),
             child: BackdropFilter(
               filter: ImageFilter.blur(sigmaX: blurSigma, sigmaY: blurSigma),
-              child: Container(color: Colors.black.withAlpha(blurOpacity)),
+              child: Container(
+                color: overlayTint.withAlpha(blurOpacity.clamp(0, 255).toInt()),
+              ),
             ),
           ),
         ),

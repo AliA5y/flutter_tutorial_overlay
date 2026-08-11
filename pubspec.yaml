@@ -2,7 +2,7 @@ name: flutter_tutorial_overlay
 
 description: "A Flutter package to create interactive tutorials, onboarding flows, guided tours, and user instruction overlays with step-by-step highlights and tooltips."
 
-version: 1.0.5
+version: 1.0.6
 homepage: https://github.com/AliA5y/flutter_tutorial_overlay
 repository: https://github.com/AliA5y/flutter_tutorial_overlay
 issue_tracker: https://github.com/AliA5y/flutter_tutorial_overlay/issues
