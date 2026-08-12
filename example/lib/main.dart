@@ -78,7 +78,7 @@ class TutorialExampleState extends State<TutorialExample> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Tutorial Overlay v1.0.5',
+              'Tutorial Overlay v1.0.6',
               style: Theme.of(context).textTheme.headlineMedium,
             ),
             SizedBox(height: 10),
@@ -245,7 +245,7 @@ class TutorialExampleState extends State<TutorialExample> {
     final steps = [
       TutorialStep(
         targetKey: _fabKey,
-        title: 'New in v1.0.5',
+        title: 'New in v1.0.6',
         description:
             'This tutorial demonstrates the new step-specific callbacks and tagging features!',
         tag: 'new_features_demo',
